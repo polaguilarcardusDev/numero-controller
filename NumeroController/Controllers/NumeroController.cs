@@ -23,13 +23,13 @@ namespace NumeroController.Controllers
             try
             {
                 // Validar si el número es nulo
-                if (numero == null)
+                if (!numero.HasValue)
                 {
                     _logger.LogWarning("Solicitud inválida: el número no puede ser nulo o no es un entero válido.");
                     return BadRequest("El valor proporcionado no es válido. Asegúrese de enviar un número entero.");
                 }
 
-                int resultado = numero.Value + 1;
+                int resultado = IncrementarNumero(numero.Value);
 
                 // Devolver el resultado con un código de respuesta 200 OK
                 return Ok(new { Resultado = resultado });
@@ -42,6 +42,12 @@ namespace NumeroController.Controllers
                 // Devolver una respuesta 500 Internal Server Error con un mensaje genérico
                 return StatusCode(StatusCodes.Status500InternalServerError, "Ocurrió un error al procesar su solicitud.");
             }
+        }
+
+        // Función que encapsula la lógica de incrementar el número
+        private int IncrementarNumero(int numero)
+        {
+            return numero + 1;
         }
     }
 }
